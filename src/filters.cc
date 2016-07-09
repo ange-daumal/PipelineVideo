@@ -9,7 +9,7 @@ int correct(int avg)
 
 cv::Mat* convolution(cv::Mat& p, int kernel[])
 {
-//  cv::Mat* res = new cv::Mat(p.rows, p.cols, p.type());
+  //  cv::Mat* res = new cv::Mat(p.rows, p.cols, p.type());
   cv::Mat* res = new cv::Mat(p);
   for (int c = 0; c < p.channels(); ++c)
     for (int i = 1; i < p.rows - 1; ++i)

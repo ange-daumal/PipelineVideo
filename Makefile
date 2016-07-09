@@ -6,7 +6,7 @@ CXXFLAGS= -Wall -Wextra -pthread -std=c++14 -ggdb3
 LDFLAGS=
 LDLIBS= -lrt -ltbb -lopencv_core -lopencv_imgproc -lopencv_video -lopencv_photo -lopencv_highgui
 
-SRC=src/frame.cc src/pipeline.cc src/filters.cc
+SRC=src/main.cc src/pipeline.cc src/filters.cc
 OBJ=$(SRC:%.cc=%.o)
 
 all: $(OBJ)
@@ -16,4 +16,4 @@ test:
 	$(CXX) test.cc -o bin $(CXXFLAGS) $(LDLIBS)
 
 clean:
-	m -f *.o
+	rm -f *.o src/*.o
