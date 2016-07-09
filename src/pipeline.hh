@@ -7,15 +7,15 @@ using namespace cv;
 tbb::pipeline create_pipeline(void);
 Mat takeOneFrame(VideoCapture& cap);
 
-class Filter1 : public tbb::filter
+class Initializer : public tbb::filter
 {
   public:
-    Filter1()
+    Initializer()
   : tbb::filter(tbb::filter::serial_in_order),
     cap_(0)
   {}
 
-    ~Filter1()
+    ~Initializer()
   {
       cap_.release();
   }
@@ -31,24 +31,10 @@ class Filter1 : public tbb::filter
     VideoCapture cap_;
 };
 
-class Filter2 : public tbb::filter
+class Terminator : public tbb::filter
 {
   public:
-    Filter2()
-  : tbb::filter(tbb::filter::parallel) {}
-
-  // Process and output tokens
-  void* operator()(void* token) override
-  {
-      Mat* picture = (Mat*) token;
-      return (void*) picture;
-  }
-};
-
-class Filter3 : public tbb::filter
-{
-  public:
-    Filter3()
+    Terminator()
   : tbb::filter(tbb::filter::serial_in_order) {}
 
   // Process tokens
