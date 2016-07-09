@@ -16,4 +16,4 @@ test:
 	$(CXX) test.cc -o bin $(CXXFLAGS) $(LDLIBS)
 
 clean:
-	rm -f *.o src/*.o
+	rm -f *.o src/*.o bin
