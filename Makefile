@@ -6,7 +6,7 @@ CXXFLAGS= -Wall -Wextra -pthread -std=c++14 -O3
 LDFLAGS=
 LDLIBS= -lrt -ltbb -lopencv_core -lopencv_imgproc -lopencv_video -lopencv_photo -lopencv_highgui
 
-SRC=src/pipeline.cc
+SRC=src/frame.cc src/pipeline.cc
 
 all:
 	$(CXX) $(SRC) -o bin $(CXXFLAGS) $(LDLIBS)

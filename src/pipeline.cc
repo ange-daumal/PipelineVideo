@@ -1,30 +1,26 @@
 #include <opencv2/opencv.hpp>
+#include <tbb/pipeline.h>
 
+#include "pipeline.hh"
 
-using namespace cv;
 
 Mat takeOneFrame(VideoCapture& cap)
 {
   Mat frame;
-
   if (waitKey(2) != 'q' && cap.isOpened())
       cap.operator >> (frame);
-
   return frame;
 }
 
-int main(void/*int argc, char** argv */)
+tbb::pipeline create_pipeline()
 {
-  namedWindow("Video");
-  namedWindow("Picture");
-  VideoCapture cap(0);
-
-  while (1)
-  {
-      Mat picture = takeOneFrame(cap);
-      imshow("Picture", picture);
-  }
-
-  cap.release();
-  return 0;
+  tbb::pipeline ThreeStage;
+  Filter1 f1;
+  Filter2 f2;
+  Filter3 f3;
+  ThreeStage.add_filter(f1);
+  ThreeStage.add_filter(f2);
+  ThreeStage.add_filter(f3);
+  return ThreeStage;
 }
+
