@@ -22,8 +22,8 @@ int main(void/*int argc, char** argv */)
   pipeline.add_filter(f1);
   pipeline.add_filter(f2);
   pipeline.add_filter(f3);
-  //pipeline.add_filter(contrast);
-  pipeline.add_filter(blurr);
+  pipeline.add_filter(contrast);
+  //pipeline.add_filter(blurr);
   pipeline.add_filter(term);
 
   pipeline.run(20);

@@ -55,30 +55,18 @@ class Blurr : public tbb::filter
 {
   public:
     Blurr()
-      : tbb::filter(tbb::filter::parallel),
-        anchor_(Point(-1, -1)),
-        delta_(0),
-        ddepth_(-1),
-        kernel_(Mat::ones(9, 9, CV_32F ) / 81.0)
+      : tbb::filter(tbb::filter::parallel)
     {}
 
     void* operator()(void* token) override
     {
       Mat* picture = (Mat*) token;
-      anchor_ = Point( -1, -1 );
-      delta_ = 0;
-      ddepth_ = -1;
-
-      filter2D(*picture, *picture, ddepth_, kernel_, anchor_, delta_,
-          BORDER_DEFAULT);
-      return (void*) picture;
+      int kernel[] = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
+      Mat* res = convolution(*picture, kernel);
+      delete picture;
+      return (void*) res;
     }
 
-  private:
-      Point anchor_;
-      double delta_;
-      int ddepth_;
-      Mat kernel_;
 };
 
 class Contrast : public tbb::filter
