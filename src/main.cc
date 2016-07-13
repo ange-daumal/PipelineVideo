@@ -27,5 +27,7 @@ int main(void/*int argc, char** argv */)
 
   pipeline.run(3);
 
+  printf("Over\n");
+
   return 0;
 }

@@ -15,21 +15,30 @@ cv::Mat* convolution(cv::Mat& p, int kernel[])
 
   printf("div = %d\n", div);
   cv::Mat* res = new cv::Mat(p);
+
   for (int i = 1; i < p.rows - 1; ++i)
     for (int j = 1; j < p.cols - 1; ++j)
     {
-      Vec3b avg = p.at<Vec3b>(i - 1, j - 1) * kernel[0] +
-        p.at<Vec3b>(i - 1, j) * kernel[1] +
-        p.at<Vec3b>(i - 1, j + 1) * kernel[2] +
-        p.at<Vec3b>(i, j - 1) * kernel[3] +
-        p.at<Vec3b>(i, j) * kernel[4] +
-        p.at<Vec3b>(i, j + 1) * kernel[5] +
-        p.at<Vec3b>(i + 1, j - 1) * kernel[6] +
-        p.at<Vec3b>(i + 1, j) * kernel[7] +
-        p.at<Vec3b>(i + 1, j + 1) * kernel[8];
+      int red = 0;
+      int green = 0;
+      int blue = 0;
 
-      //Vec3b pix = Vec3b(p.at<Vec3b>(x + x_conv, y + y_conv));
-      (*res).at<Vec3b>(i, j) = avg / (div != 0 ? div : 1);
+      for (int x = -1; x < 2; ++x)
+        for (int y = -1; y < 2; ++y)
+        {
+          Vec3b px = p.at<Vec3b>(i + x, j + x);
+
+          red += px[0] * kernel[(1 + x) * 3 + y];
+          green += px[1] * kernel[(1 + x) * 3 + y];
+          blue += px[2] * kernel[(1 + x) * 3 + y];
+        }
+
+        Vec3b avg = Vec3b();
+        avg[0] = correct(red);
+        avg[1] = correct(green);
+        avg[2] = correct(blue);
+
+        (*res).at<Vec3b>(i, j) = (avg);
     }
 
   return res;
