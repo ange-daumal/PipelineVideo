@@ -9,7 +9,11 @@ int correct(int avg)
 
 cv::Mat* convolution(cv::Mat& p, int kernel[])
 {
-  //  cv::Mat* res = new cv::Mat(p.rows, p.cols, p.type());
+  int div = 0;
+  for (int i = 0; i < 9; ++i)
+    div += kernel[i];
+
+  printf("div = %d\n", div);
   cv::Mat* res = new cv::Mat(p);
   for (int i = 1; i < p.rows - 1; ++i)
     for (int j = 1; j < p.cols - 1; ++j)
@@ -25,7 +29,8 @@ cv::Mat* convolution(cv::Mat& p, int kernel[])
         p.at<Vec3b>(i + 1, j + 1) * kernel[8];
 
       //Vec3b pix = Vec3b(p.at<Vec3b>(x + x_conv, y + y_conv));
-      (*res).at<Vec3b>(i, j) = avg;
+      (*res).at<Vec3b>(i, j) = avg / (div != 0 ? div : 1);
     }
+
   return res;
 }

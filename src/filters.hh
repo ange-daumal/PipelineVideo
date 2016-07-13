@@ -23,34 +23,6 @@ class Filter1 : public tbb::filter
     }
 };
 
-class Filter2 : public tbb::filter
-{
-  public:
-    Filter2()
-      : tbb::filter(tbb::filter::parallel) {}
-
-    void* operator()(void* token) override
-    {
-      Mat* picture = (Mat*) token;
-      //TODO FIXME
-      return (void*) picture;
-    }
-};
-
-class Filter3 : public tbb::filter
-{
-  public:
-    Filter3()
-      : tbb::filter(tbb::filter::parallel) {}
-
-    void* operator()(void* token) override
-    {
-      Mat* picture = (Mat*) token;
-      //TODO FIXME
-      return (void*) picture;
-    }
-};
-
 class Blurr : public tbb::filter
 {
   public:
@@ -86,4 +58,55 @@ class Contrast : public tbb::filter
     }
 };
 
+class StrengthenEdge : public tbb::filter
+{
+  public:
+    StrengthenEdge()
+      : tbb::filter(tbb::filter::parallel)
+    {}
+
+    void* operator()(void* token) override
+    {
+      Mat* picture = (Mat*) token;
+      int kernel[] = { 0, 0, 0, -1, 1, 0, 0, 0, 0 };
+      Mat* res = convolution(*picture, kernel);
+      delete picture;
+      return (void*) res;
+    }
+};
+
+class DetectEdge : public tbb::filter
+{
+  public:
+    DetectEdge()
+      : tbb::filter(tbb::filter::parallel)
+    {}
+
+    void* operator()(void* token) override
+    {
+      Mat* picture = (Mat*) token;
+      int kernel[] = { 0, 1, 0, 1, -4, 1, 0, 1, 0 };
+      Mat* res = convolution(*picture, kernel);
+      delete picture;
+      return (void*) res;
+    }
+};
+
+
+class Emboss : public tbb::filter
+{
+  public:
+    Emboss()
+      : tbb::filter(tbb::filter::parallel)
+    {}
+
+    void* operator()(void* token) override
+    {
+      Mat* picture = (Mat*) token;
+      int kernel[] = { -2, -1, 0, -1, 1, 1, 0, 1, 2 };
+      Mat* res = convolution(*picture, kernel);
+      delete picture;
+      return (void*) res;
+    }
+};
 #endif /* _FILTERS_HH_ */

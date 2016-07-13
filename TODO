@@ -2,11 +2,11 @@ TODO LIST
 
 [X] Pipeline
 
-[ ] Effets de convolutions classiques
+[X] Effets de convolutions classiques
 [ ] Overlay
-[ ] Filtre de convolution
+[X] Filtre de convolution
 [ ] Filtre libre (au choix)
 
 [ ] Mode sequentiel
-[ ] Mode parallele
+[X] Mode parallele
 [ ] Mesure de performances comparees
